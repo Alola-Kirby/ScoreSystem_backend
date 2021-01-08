@@ -53,6 +53,11 @@ public class ScoreController
     // 根据课程id查询课程名称（已完成）
     @GetMapping("/getClassName")
     public CommonResult<String> getCourseName(@RequestParam(value = "class_id") String class_id) {
+        String oriUsrNo = RequestUtil.id();
+        String objUsrNo = scoreService.getTeacherIdByClassId(class_id);
+        if (!oriUsrNo.equals(objUsrNo)) {
+            return new CommonResult<>(444,"您没有权限执行此操作");
+        }
         String name = scoreService.getClassNameById(class_id);
         return new CommonResult<>(200,"查询成功", name);
     }
