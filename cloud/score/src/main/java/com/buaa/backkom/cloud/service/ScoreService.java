@@ -9,15 +9,20 @@ import java.util.List;
 
 public interface ScoreService
 {
-    public User getUserById(Long id);
+    User getUserById(String id);
 
-    public List<Class> getClassById(Long id);
+    List<Class> getClassById(String id);
 
-    public String getClassNameById(Long class_id);
+    String getClassNameById(String class_id);
 
-    public List<Score> getScoreByClass(Long id);
+    String getTeacherIdByClassId(String id);
 
-    public List<Score> getScoreByScore(Long id);
+    List<Score> getScoreByClass(String id);
 
-    public Long updateScore(@Param("stu_id") Long stu_id, @Param("class_id") Long class_id, @Param("score")Double score);
+    List<Score> getScoreByScore(String id);
+
+    Long updateScore(@Param("stu_id") String stu_id, @Param("class_id") String class_id, @Param("score")Double score);
+
+    String modifyInfo(String oriUserNo, String userName,
+                      String oldPsw, String newPsw, String newPswConf);
 }

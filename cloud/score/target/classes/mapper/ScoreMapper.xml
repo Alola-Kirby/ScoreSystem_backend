@@ -4,47 +4,53 @@
 <mapper namespace="com.buaa.backkom.cloud.dao.ScoreDao">
 
     <resultMap id="UserResultMap" type="com.buaa.backkom.cloud.entities.User">
-        <id column="student_id" property="id" jdbcType="BIGINT"></id>
+        <id column="student_id" property="id" jdbcType="VARCHAR"></id>
         <id column="password" property="password" jdbcType="VARCHAR"></id>
         <id column="name" property="name" jdbcType="VARCHAR"></id>
         <id column="type" property="type" jdbcType="VARCHAR"></id>
     </resultMap>
-    <select id="getUserById"  parameterType="Long" resultMap="UserResultMap">
+    <select id="getUserById"  parameterType="java.lang.String" resultMap="UserResultMap">
         select *
         from user
         where student_id=#{id}
     </select>
 
     <resultMap id="ClassResultMap" type="com.buaa.backkom.cloud.entities.Class">
-        <id column="class_id" property="class_id" jdbcType="BIGINT"></id>
-        <id column="teacher_id" property="teacher_id" jdbcType="BIGINT"></id>
+        <id column="class_id" property="class_id" jdbcType="VARCHAR"></id>
+        <id column="teacher_id" property="teacher_id" jdbcType="VARCHAR"></id>
         <id column="name" property="name" jdbcType="VARCHAR"></id>
     </resultMap>
-    <select id="getClassById"  parameterType="Long" resultMap="ClassResultMap">
+    <select id="getClassById"  parameterType="java.lang.String" resultMap="ClassResultMap">
         select *
         from class
         where teacher_id=#{id}
     </select>
 
-    <select id="getClassNameById" parameterType="Long" resultType="java.lang.String">
+    <select id="getClassNameById" parameterType="java.lang.String" resultType="java.lang.String">
         select name
         from class
         where class_id=#{class_id}
     </select>
 
+    <select id="getTeacherIdByClassId" parameterType="java.lang.String" resultType="java.lang.String">
+        select teacher_id
+        from class
+        where class_id=#{class_id}
+    </select>
+
     <resultMap id="ScoreResultMap" type="com.buaa.backkom.cloud.entities.Score">
-        <id column="class_id" property="class_id" jdbcType="BIGINT"></id>
-        <id column="student_id" property="stu_id" jdbcType="BIGINT"></id>
+        <id column="class_id" property="class_id" jdbcType="VARCHAR"></id>
+        <id column="student_id" property="stu_id" jdbcType="VARCHAR"></id>
         <id column="score" property="score" jdbcType="DOUBLE"></id>
         <id column="class_name" property="class_name" jdbcType="VARCHAR"></id>
         <id column="stu_name" property="stu_name" jdbcType="VARCHAR"></id>
     </resultMap>
-    <select id="getScoreByClass"  parameterType="Long" resultMap="ScoreResultMap">
+    <select id="getScoreByClass"  parameterType="java.lang.String" resultMap="ScoreResultMap">
         select score.class_id,score.student_id,score,class.name as class_name,user.name as stu_name
         from class,score,user
         where score.student_id=user.student_id and score.class_id=class.class_id and score.class_id=#{id}
     </select>
-    <select id="getScoreByStudent"  parameterType="Long" resultMap="ScoreResultMap">
+    <select id="getScoreByStudent"  parameterType="java.lang.String" resultMap="ScoreResultMap">
         select score.class_id,score.student_id,score,class.name as class_name,user.name as stu_name
         from class,score,user
         where score.student_id=user.student_id and score.class_id=class.class_id and score.student_id=#{id}
@@ -57,5 +63,17 @@
         </set>
         where student_id=#{stu_id} and class_id=#{class_id}
     </update>
+
+    <update id="modifyInfo">
+        update user
+        <set>
+            name=#{usr_name},
+            <if test="is_modify_psw">
+                password=#{new_psw}
+            </if>
+        </set>
+        where student_id=#{ori_usr_no}
+    </update>
+
 </mapper>
 

@@ -11,15 +11,21 @@ import java.util.List;
 @Mapper
 public interface ScoreDao
 {
-    public User getUserById(Long id);
+    User getUserById(String id);
 
-    public List<Class> getClassById(Long id);
+    List<Class> getClassById(String id);
 
-    public String getClassNameById(Long class_id);
+    String getClassNameById(String class_id);
 
-    public List<Score> getScoreByClass(Long id);
+    String getTeacherIdByClassId(String id);
 
-    public List<Score> getScoreByStudent(Long id);
+    List<Score> getScoreByClass(String id);
 
-    public Long updateScore(@Param("stu_id") Long stu_id, @Param("class_id") Long class_id, @Param("score")Double score);
+    List<Score> getScoreByStudent(String id);
+
+    Long updateScore(@Param("stu_id") String stu_id, @Param("class_id") String class_id, @Param("score")Double score);
+
+    void modifyInfo(@Param("ori_usr_no") String ori_usr_no,
+                    @Param("usr_name") String usr_name, @Param("new_psw") String new_psw,
+                    @Param("is_modify_psw") Boolean is_modify_psw);
 }

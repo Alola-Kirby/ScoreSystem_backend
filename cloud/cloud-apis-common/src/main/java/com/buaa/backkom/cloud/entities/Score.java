@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Score {
-    private Long stu_id;
-    private Long class_id;
+    private String stu_id;
+    private String class_id;
     private Double score;
     private String stu_name;
     private String class_name;
